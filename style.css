@@ -1,0 +1,27 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    margin: 50px;
+    display: flex;
+    flex: 1;
+    align-content: center;}
+ .information{
+    width: 50%;
+    height: 500px;
+    text-align: center;
+}
+.search{
+    width: 50%;
+    height: 500px;
+    text-align: center;
+}
+.footer {
+    flex: 1;
+    text-align: center;
+}
+.main{
+    display: flex;
+    justify-content: center;
+}
