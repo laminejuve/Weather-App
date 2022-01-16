@@ -63,8 +63,15 @@ const insertData = function(data){
   const humidity = data.tempInfo.humidity;
   Hum.innerHTML = "Humidity : "+humidity+"%";
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
-  const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="50" height="50"></img>`;
-  tempMain.insertAdjacentHTML('beforeend',htmlIcon);
+  const img = document.querySelector(".image");
+  console.log(img);
+  if (img){
+    document.querySelector(".image").src = iconUrl;
+  } else{
+    const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="50" height="50"></img>`;
+    tempMain.insertAdjacentHTML('beforeend',htmlIcon);
+  } 
+  
   document.body.style.backgroundImage = `url('./images/${weatherMain}.jpg')`;  
 }
 getWeather("Moscow");
