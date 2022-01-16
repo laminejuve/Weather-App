@@ -1,6 +1,5 @@
 
 const weatheApiKey = "bd1e7e6294cb71da8df37a669c977d34";
-
 const city = document.querySelector("#city");
 const temperature = document.querySelector("#temp");
 const description = document.querySelector("#description");
@@ -10,17 +9,26 @@ const sun_Set = document.querySelector("#sunSet");
 const feels_like = document.querySelector("#feels_like");
 const windSpeed = document.querySelector("#wind");
 const Hum = document.querySelector("#humidity");
+const input = document.querySelector("input");
+ 
 
-
-console.log(tempMain);
-
-
+document.addEventListener('keydown',function(e){
+  console.log(e.key);
+  if (e.key !== "Enter") return ;
+  const city = e.target.value;
+  getWeather(city);
+});
 
 const getWeather = async function(city){
+  try {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatheApiKey}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  insertData(renderData(data));
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+    insertData(renderData(data));
+  } catch (err){
+    alert(err.message);
+  }  
 }
 
 const renderData= function (data){
@@ -57,10 +65,9 @@ const insertData = function(data){
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
   const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image"></img>`;
   tempMain.insertAdjacentHTML('beforeend',htmlIcon);
-  document.body.style.backgroundImage = `url('./images/${weatherMain}.jpg')`;
-
-  
+  document.body.style.backgroundImage = `url('./images/${weatherMain}.jpg')`;  
 }
+getWeather("Moscow");
 
 
 
@@ -68,7 +75,7 @@ const insertData = function(data){
 
 
 
-getWeather("setif");
+
 
 
 
