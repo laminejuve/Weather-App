@@ -33,7 +33,7 @@ const getWeather = async function(city){
 
 const renderData= function (data){
   const weatherInfo = {
-     weather : data.weather[0],
+    weather : data.weather[0],
     countryInfo : data.sys,
     tempInfo : data.main,
     windSpeed : data.wind.speed,
@@ -63,7 +63,7 @@ const insertData = function(data){
   const humidity = data.tempInfo.humidity;
   Hum.innerHTML = "Humidity : "+humidity+"%";
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
-  const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image"></img>`;
+  const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="50" height="50"></img>`;
   tempMain.insertAdjacentHTML('beforeend',htmlIcon);
   document.body.style.backgroundImage = `url('./images/${weatherMain}.jpg')`;  
 }
