@@ -66,13 +66,24 @@ const renderData= function (data){
   return weatherInfo;
 }
 
+function calcTime(city, offset) {
+  d = new Date();
+  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+  nd = new Date(utc + (3600000*offset));
+  return  nd.toLocaleString();
+}
+
+
 const insertData = function(data){
   city.innerHTML = ` ${data.cityName}, ${data.countryInfo.country} ` ;
   const sunRise = (new Date((+data.countryInfo.sunrise+data.timeZone-3600)*1000)).toLocaleTimeString()  ;
   sun_Rise.innerHTML = "Sun Rise : "+sunRise;
   const sunSet = (new Date((+data.countryInfo.sunset+data.timeZone-3600)*1000)).toLocaleTimeString()  ;
   sun_Set.innerHTML = "Sun Set : "+sunSet;
-  const today = new Date().toString().split("(")[0];
+  //const today = new Date().toString().split("(")[0];
+  const todayTime = calcTime(data.cityName,data.timeZone/3600);
+  console.log(todayTime);
+  document.querySelector("h3").innerHTML = todayTime;
   const temp = Math.round(+(data.tempInfo.temp) - 273.15);
   temperature.innerHTML = temp+"° C";
   const feelsLike = Math.round(+(data.tempInfo.feels_like) - 273.15);
@@ -90,7 +101,7 @@ const insertData = function(data){
   if (img){
     document.querySelector(".image").src = iconUrl;
   } else{
-    const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="60" height="60"></img>`;
+    const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="100" height="100"></img>`;
     tempMain.insertAdjacentHTML('beforeend',htmlIcon);
   } 
   
