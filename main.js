@@ -10,21 +10,43 @@ const feels_like = document.querySelector("#feels_like");
 const windSpeed = document.querySelector("#wind");
 const Hum = document.querySelector("#humidity");
 const input = document.querySelector("input");
- 
+const cityLoc = document.querySelector(".location");
+let city1 = "Moscow";
+
+
+cityLoc.addEventListener('click',function(e){
+  navigator.geolocation.getCurrentPosition((pos)=> {
+    const latitude = pos.coords.latitude;
+    const longitude = pos.coords.longitude;
+    getCityByCoords(latitude,longitude);
+    getWeather('annaba')
+  },
+  err => alert(err.message));
+})
 
 document.addEventListener('keydown',function(e){
-  console.log(e.key);
   if (e.key !== "Enter") return ;
   const city = e.target.value;
   getWeather(city);
 });
+
+const getCityByCoords = async function(latitude,longitude){
+  try {
+    const url =`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatheApiKey}` ; 
+    const res = await fetch(url);
+    const data = await res.json();
+    city1 = renderData(data).cityName ;
+  } catch (err){
+    alert(err.message);
+  }
+   
+}
 
 const getWeather = async function(city){
   try {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatheApiKey}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     insertData(renderData(data));
   } catch (err){
     alert(err.message);
@@ -40,14 +62,15 @@ const renderData= function (data){
     cityName : data.name,
     timeZone : data.timezone,
   } 
+  console.log(weatherInfo);
   return weatherInfo;
 }
 
 const insertData = function(data){
   city.innerHTML = ` ${data.cityName}, ${data.countryInfo.country} ` ;
-  const sunRise = (new Date(data.countryInfo.sunrise*1000)).toLocaleTimeString()  ;
+  const sunRise = (new Date((+data.countryInfo.sunrise+data.timeZone-3600)*1000)).toLocaleTimeString()  ;
   sun_Rise.innerHTML = "Sun Rise : "+sunRise;
-  const sunSet = (new Date(data.countryInfo.sunset*1000)).toLocaleTimeString()  ;
+  const sunSet = (new Date((+data.countryInfo.sunset+data.timeZone-3600)*1000)).toLocaleTimeString()  ;
   sun_Set.innerHTML = "Sun Set : "+sunSet;
   const today = new Date().toString().split("(")[0];
   const temp = Math.round(+(data.tempInfo.temp) - 273.15);
@@ -64,17 +87,16 @@ const insertData = function(data){
   Hum.innerHTML = "Humidity : "+humidity+"%";
   const iconUrl = `https://openweathermap.org/img/wn/${weatherIcon}.png`;
   const img = document.querySelector(".image");
-  console.log(img);
   if (img){
     document.querySelector(".image").src = iconUrl;
   } else{
-    const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="50" height="50"></img>`;
+    const htmlIcon = `<img src=${iconUrl} alt="Avatar" class="image" width="60" height="60"></img>`;
     tempMain.insertAdjacentHTML('beforeend',htmlIcon);
   } 
   
   document.body.style.backgroundImage = `url('./images/${weatherMain}.jpg')`;  
 }
-getWeather("Moscow");
+getWeather(city1);
 
 
 
