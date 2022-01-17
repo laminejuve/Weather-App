@@ -47,6 +47,7 @@ const getCityByposition = function(){
 getCityByposition();
 cityLoc.addEventListener('click',function(e){
     getWeather(city1);
+    Cel_to_fah.checked=false;
   });
 
 // get weather for a given city when press the enter button
@@ -55,6 +56,7 @@ document.addEventListener('keydown',function(e){
   if (e.key !== "Enter") return ;
   const city = e.target.value;
   getWeather(city);
+  Cel_to_fah.checked=false;
 });
 
 // get weather for a city by its coords 
