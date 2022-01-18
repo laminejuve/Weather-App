@@ -44,9 +44,9 @@ const getCityByposition = function(){
   },
   err => alert(err.message));
 }
-getCityByposition();
+//getCityByposition();
 cityLoc.addEventListener('click',function(e){
-    getWeather(city1);
+    getCityByposition();
     Cel_to_fah.checked=false;
   });
 
@@ -67,6 +67,7 @@ const getCityByCoords = async function(latitude,longitude){
     const res = await fetch(url);
     const data = await res.json();
     city1 = renderData(data).cityName ;
+    getWeather(city1);
   } catch (err){
     alert(err.message);
   }
