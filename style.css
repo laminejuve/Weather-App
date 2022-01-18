@@ -140,4 +140,11 @@ body{
     font-weight: bold;
     text-shadow: none;
   }
+  .location:hover{
+    opacity: 0.5;
+  }
+  #fehLabel{
+    font-size: 18px;
+    font-weight: bold;
+  }
 

@@ -80,7 +80,7 @@ const getWeather = async function(city){
     const data = await res.json();
     insertData(renderData(data));
   } catch (err){
-    alert(err.message);
+    alert(`This City " ${city} " doesnt exist check the spelling and try again !!`);
   }  
 }
 
